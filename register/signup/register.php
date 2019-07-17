@@ -38,6 +38,9 @@ if(isset($_REQUEST['signUp'])){
                 date = NOW()";
             if(mysqli_query($connection,$query)){
                 $success = "Successfully Created";
+                $name ='';
+                $email ='';
+                $password='';
             }
             $to ="$email";
 
