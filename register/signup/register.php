@@ -26,18 +26,29 @@ if(isset($_REQUEST['signUp'])){
         if(mysqli_num_rows($check)>0){
             $errors .= 'Please enter a different email address';
         }else{
+            $sub = $name.rand(1,100000);
+            $token = md5($sub);
+
             $query ="insert into members set
                 id='',
                 name='$name',
                 email='$email',
                 password='$password',
+                token ='$token',
                 date = NOW()";
             if(mysqli_query($connection,$query)){
-                $name='';
-                $email='';
-                $password='';
                 $success = "Successfully Created";
             }
+            $to ="$email";
+
+            $subject ='Please verify your account';
+            $message ='<h1>Thank you for SignUp!!</h1><br>Please click this link in order to verify your account';
+            $message .="<a href='http://localhost/www/register/register/signup/activate.php?token=".$token."'> Click me</a>";
+
+            $header ="From: test@gmail.com\n";
+            $header .= "MIME-Version 1.0\n";
+            $header .= "Content-type: text/html; charset=iso-8859-1\n";
+            mail($to,$subject,$message,$header);
         }
     }
 }
